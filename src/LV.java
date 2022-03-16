@@ -1,2 +1,7 @@
-public class LV {
+public class LV extends ID{
+
+    public LV()
+    {
+        super();
+    }
 }
