@@ -17,6 +17,10 @@ public class PD {
         this.associatedPV = associatedPV;
     }
 
+    public PV getAssociatedPV() {
+        return associatedPV;
+    }
+
     public int getSpace() {
         return space;
     }

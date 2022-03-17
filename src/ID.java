@@ -13,4 +13,8 @@ public class ID {
     public  UUID getID() {
         return assignedID;
     }
+
+    public String getName() {
+        return name;
+    }
 }

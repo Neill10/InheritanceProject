@@ -1,12 +1,13 @@
 import java.util.*;
 
-public class VG {
+public class VG extends ID{
     private int totalspace;
     private int availableSpace;
     private ArrayList<PV> PVList;
 
-    public VG()
+    public VG(String name)
     {
+        super(name);
         totalspace = 0;
         PVList = new ArrayList<>();
     }
@@ -29,4 +30,6 @@ public class VG {
     public int getTotalspace() {
         return totalspace;
     }
+
+
 }

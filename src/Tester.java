@@ -5,11 +5,16 @@ public class Tester {
         Logic logic = new Logic();
         Scanner s = new Scanner(System.in);
         System.out.println("Welcome to the LVM system! Enter your commands:\n");
-        System.out.println("cmd#: ");
+        System.out.print("cmd#: ");
         String userChoice = s.nextLine();
-        logic.choices(userChoice);
+        while(!userChoice.equals("Exits"))
+        {
+            logic.choices(userChoice);
+            System.out.print("cmd#: ");
+            userChoice = s.nextLine();
+        }
 
-        logic.getPDList();
+
 
 
 
