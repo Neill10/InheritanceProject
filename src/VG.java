@@ -1,8 +1,8 @@
 import java.util.*;
 
 public class VG {
-    private double totalspace;
-    private double availableSpace;
+    private int totalspace;
+    private int availableSpace;
     private ArrayList<PV> PVList;
 
     public VG()
@@ -22,11 +22,11 @@ public class VG {
         return PVList;
     }
 
-    public double getAvailableSpace() {
+    public int getAvailableSpace() {
         return availableSpace;
     }
 
-    public double getTotalspace() {
+    public int getTotalspace() {
         return totalspace;
     }
 }

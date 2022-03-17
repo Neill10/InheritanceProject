@@ -1,11 +1,11 @@
 import java.util.*;
 
 public class PD {
-    private double space;
+    private int space;
     private String name;
     private PV associatedPV;
 
-    public PD(String name, double space)
+    public PD(String name, int space)
     {
         this.name = name;
         this.space = space;
@@ -17,7 +17,7 @@ public class PD {
         this.associatedPV = associatedPV;
     }
 
-    public double getSpace() {
+    public int getSpace() {
         return space;
     }
 
