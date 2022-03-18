@@ -18,7 +18,7 @@ public class VG extends ID{
         availableSpace += PV.getSpace();
     }
 
-    public ArrayList<PV> getPDList() {
+    public ArrayList<PV> getPVList() {
         return PVList;
     }
 
