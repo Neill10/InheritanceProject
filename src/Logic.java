@@ -47,7 +47,7 @@ public class Logic {
         }
         else if(userChoice.contains("lvcreate"))
         {
-
+            createLV(userChoice);
         }
         else
         {
@@ -328,5 +328,16 @@ public class Logic {
         }
     }
 
+    public void createLV(String userChoice)
+    {
+        int index = userChoice.indexOf(" ") + 1;
+        int endIndexOfNameVG = userChoice.substring(index).indexOf(" ") + index;
+        String nameLV = userChoice.substring(index,(endIndexOfNameVG));
+        String nameVG = userChoice.substring(endIndexOfNameVG + 1);
+        System.out.println(index);
+        System.out.println(endIndexOfNameVG);
+        System.out.println(nameLV);
+        System.out.println(nameVG);
+    }
 
 }

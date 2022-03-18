@@ -2,14 +2,14 @@ import javax.swing.text.html.ObjectView;
 import java.util.*;
 
 public class VG extends ID{
-    private int totalspace;
+    private int totalSpace;
     private int availableSpace;
     private ArrayList<PV> PVList = new ArrayList<PV>();
 
     public VG(String name, PV PV)
     {
         super(name);
-        totalspace = 0;
+        totalSpace = PV.getSpace();
         PVList.add(PV);
 
     }
@@ -17,7 +17,7 @@ public class VG extends ID{
     public void addPV(PV PV)
     {
         PVList.add(PV);
-        totalspace += PV.getSpace();
+        totalSpace += PV.getSpace();
         availableSpace += PV.getSpace();
     }
 
@@ -30,7 +30,7 @@ public class VG extends ID{
     }
 
     public int getTotalspace() {
-        return totalspace;
+        return totalSpace;
     }
 
 
