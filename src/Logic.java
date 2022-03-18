@@ -331,13 +331,21 @@ public class Logic {
     public void createLV(String userChoice)
     {
         int index = userChoice.indexOf(" ") + 1;
-        int endIndexOfNameVG = userChoice.substring(index).indexOf(" ") + index;
-        String nameLV = userChoice.substring(index,(endIndexOfNameVG));
-        String nameVG = userChoice.substring(endIndexOfNameVG + 1);
+        int endIndexOfNameLV = userChoice.substring(index).indexOf(" ") + index;
+        int endIndexOfSpace = userChoice.substring(endIndexOfNameLV + 1).indexOf(" ") + endIndexOfNameLV;
         System.out.println(index);
-        System.out.println(endIndexOfNameVG);
+        System.out.println(endIndexOfNameLV);
+        System.out.println(endIndexOfSpace);
+
+        String nameLV = userChoice.substring(index + 1,(endIndexOfNameLV));
         System.out.println(nameLV);
-        System.out.println(nameVG);
+        int space = Integer.parseInt(userChoice.substring(endIndexOfNameLV + 1,endIndexOfSpace));
+        System.out.println(space);
+        //String nameVG = userChoice.substring(endIndexOfNameVG + 1);
+
+
+        System.out.println(nameLV);
+        //System.out.println(nameVG);
     }
 
 }
