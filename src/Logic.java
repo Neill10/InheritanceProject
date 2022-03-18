@@ -37,9 +37,21 @@ public class Logic {
         {
             createVG(userChoice);
         }
+        else if(userChoice.contains("vgextend"))
+        {
+            extendVG(userChoice);
+        }
+        else if(userChoice.contains("vglist"))
+        {
+            VGList();
+        }
+        else if(userChoice.contains("lvcreate"))
+        {
+
+        }
         else
         {
-            System.out.println("Invalid command!");
+            System.out.println("ERROR: Invalid command!");
         }
 
     }
@@ -53,7 +65,6 @@ public class Logic {
         for(int i = 0; i < PDList.size();i++)
         {
             System.out.println(PDList.get(i).getName() + " [" + PDList.get(i).getSpace() + "G]");
-            System.out.println(PDList.get(i).getAssociatedPV());
         }
     }
 
@@ -65,7 +76,7 @@ public class Logic {
         {
             if(PDList.get(i).getName().equals(name))
             {
-                System.out.println("Invalid choice " + name + " drive is already installed!");
+                System.out.println("ERROR: Invalid choice " + name + " drive is already installed!");
                 same = true;
             }
         }
@@ -134,16 +145,10 @@ public class Logic {
                         System.out.println("ERROR: Proposed Associated Hard Drive " + namePD + " is Already Assigned to PV " + PDList.get(i).getAssociatedPV().getName() + "!");
                         foundPD = true;
                     }
-                    /*
-                    else {
-                        if(i == PDList.size() -1 && !PDList.get(i).getName().equals(namePD))
-                        System.out.println("There are no Hard Drives called " + namePD);
-                    }
-                    */
                 }
                 if(!foundPD)
                 {
-                    System.out.println("There are no Hard Drives called " + namePD);
+                    System.out.println("ERROR: There are no Hard Drives called " + namePD);
                 }
             }
             else
@@ -153,7 +158,7 @@ public class Logic {
         }
         else
         {
-            System.out.println("There are no Hard Drives to associate your Physical Volume PV to!");
+            System.out.println("ERROR: There are no Hard Drives to associate your Physical Volume PV to!");
         }
     }
 
@@ -180,14 +185,15 @@ public class Logic {
             }
             if(noRepeat)
             {
-                newVG = new VG(nameVG);
-                VGList.add(newVG);
+
                 boolean foundPV = false;
                 for(int i = 0; i < PVList.size();i++)
                 {
                     if(PVList.get(i).getName().equals(namePV) && PVList.get(i).getAssociatedVG() == null)
                     {
                         pv = PVList.get(i);
+                        newVG = new VG(nameVG,pv);
+                        VGList.add(newVG);
                         pv.setAssociatedVG(newVG);
                         System.out.println("Successfully associated PV " + namePV + " to VG " + nameVG);
                         foundPV = true;
@@ -211,10 +217,6 @@ public class Logic {
                     System.out.println("ERROR: There are no PVs named " + namePV);
                 }
             }
-            else
-            {
-                System.out.println("ERROR: There is already a VG named " + nameVG);
-            }
         }
         else
         {
@@ -232,6 +234,7 @@ public class Logic {
         PV PV = null;
         int VGListSize = VGList.size();
         int PVListSize = PVList.size();
+
         if(VGListSize != 0 && PVListSize != 0)
         {
             boolean foundVG = false;
@@ -245,34 +248,43 @@ public class Logic {
             }
             if(foundVG)
             {
-                int VGsPDList = VG.getPVList().size();
                 boolean add = false;
-                if(VGsPDList != 0 )
+                for(int i = 0; i < PVList.size();i++)//check the PV list if it is not already assigned or exists
                 {
-                    for(int i = 0; i < VGListSize;i++)
+                    if(PVList.get(i).getName().equals(namePV) && PVList.get(i).getAssociatedVG() == null)
                     {
-                        if(VG.getPVList().get(i).getName().equals(namePV) && VG.getPVList().get(i).getAssociatedVG() == null)
-                        {
-                            add = true;//have to make sure pv exists and not part of a vg already
-                            break;
-                        }
-                        else if (VG.getPVList().get(i).getName().equals(namePV) && VG.getPVList().get(i).getAssociatedVG() != null)
-                        {
-                            System.out.println("ERROR: Your Proposed PV is already part of " + VG.getPVList().get(i).getAssociatedVG().getName());
-                        }
-                        else
-                        {
-
-                        }
+                        PV = PVList.get(i);
+                        add = true;
+                        break;
+                    }
+                    else if (PVList.get(i).getName().equals(namePV) && PVList.get(i).getAssociatedVG() != null)
+                    {
+                        System.out.println("ERROR: Your Proposed PV is already part of " + PVList.get(i).getAssociatedVG().getName());
+                        break;
                     }
                 }
                 if(add)
                 {
-
+                    for(int i = 0; i < VG.getPVList().size();i++)//checks own PV list so there can't be repeats
+                    {
+                        if(VG.getPVList().get(i).getName().equals(namePV))
+                        {
+                            add = false;
+                        }
+                    }
+                    if(add)
+                    {
+                        System.out.println("Successfully extended PV " + namePV + " to VG " + nameVG);
+                        VG.addPV(PV);
+                    }
+                    else
+                    {
+                        System.out.println("ERROR: PV " + namePV + " is already in this VG (" + nameVG +")!");
+                    }
                 }
                 else
                 {
-                    System.out.println("There are ");
+                    System.out.println("There are no PVs named" + namePV);
                 }
             }
             else
@@ -291,6 +303,28 @@ public class Logic {
         else
         {
             System.out.println("ERROR: There are no PVs created to add to");
+        }
+    }
+
+    public void VGList()
+    {
+        if(VGList.size() == 0)
+        {
+            System.out.println("There are no created PVs!");
+        }
+        for(int i = 0; i < VGList.size();i++)
+        {
+            System.out.print(VGList.get(i).getName() + ": ");
+            System.out.print("total:["+ VGList.get(i).getTotalspace() + "G] ");
+            System.out.print("available:["+ VGList.get(i).getAvailableSpace() + "G] ");
+
+            for(int x = 0; i < VGList.get(i).getPVList().size();x++)
+            {
+                PV temp = VGList.get(i).getPVList().get(x);
+                System.out.print("[" + temp.getName() + "] ");
+            }
+            System.out.print("[" + VGList.get(i).getID() + "]");
+            System.out.println();
         }
     }
 

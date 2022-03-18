@@ -1,14 +1,17 @@
+import javax.swing.text.html.ObjectView;
 import java.util.*;
 
 public class VG extends ID{
     private int totalspace;
     private int availableSpace;
-    private ArrayList<PV> PVList;
+    private ArrayList<PV> PVList = new ArrayList<PV>();
 
-    public VG(String name)
+    public VG(String name, PV PV)
     {
         super(name);
         totalspace = 0;
+        PVList.add(PV);
+
     }
 
     public void addPV(PV PV)
