@@ -9,7 +9,7 @@ public class PD {
     {
         this.name = name;
         this.space = space;
-        System.out.println("Drive " + name +" installed");
+
     }
 
     public void setAssociatedPV(PV associatedPV)

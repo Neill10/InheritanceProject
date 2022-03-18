@@ -9,7 +9,6 @@ public class VG extends ID{
     {
         super(name);
         totalspace = 0;
-        PVList = new ArrayList<>();
     }
 
     public void addPV(PV PV)

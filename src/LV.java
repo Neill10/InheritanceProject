@@ -8,7 +8,10 @@ public class LV extends ID {
     {
         super(name);
         this.associatedVG = associatedVG;
+        //associatedVG remove space*
     }
+
+
 
 
 

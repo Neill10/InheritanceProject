@@ -6,6 +6,7 @@ public class PV extends ID{
     public PV(String name, PD associatedPD)
     {
         super(name);
+        this.associatedPD = associatedPD;
     }
     /*
     public void setAssociatedPD(PD associatedPD)
