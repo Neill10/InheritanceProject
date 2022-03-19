@@ -4,6 +4,7 @@ public class Logic {
     private ArrayList<PD> PDList = new ArrayList<PD>();
     private ArrayList<PV> PVList = new ArrayList<PV>();
     private ArrayList<VG> VGList = new ArrayList<VG>();
+    private ArrayList<LV> LVList = new ArrayList<LV>();
     //private String userChoice;
 
 
@@ -48,6 +49,12 @@ public class Logic {
         else if(userChoice.contains("lvcreate"))
         {
             createLV(userChoice);
+        }
+        else if(userChoice.contains("Exit"))
+        {
+            System.out.println("cmd#");
+            userChoice = scan.nextLine();
+            choices(userChoice);
         }
         else
         {
@@ -230,6 +237,7 @@ public class Logic {
         int endIndexOfNameVG = userChoice.substring(index).indexOf(" ") + index;
         String nameVG = userChoice.substring(index,(endIndexOfNameVG));
         String namePV = userChoice.substring(endIndexOfNameVG + 1);
+
         VG VG = null;//so easier to work with rather than calling VGList.get(i)
         PV PV = null;
         int VGListSize = VGList.size();
@@ -318,9 +326,16 @@ public class Logic {
             System.out.print("total:["+ VGList.get(i).getTotalspace() + "G] ");
             System.out.print("available:["+ VGList.get(i).getAvailableSpace() + "G] ");
 
-            for(int x = 0; i < VGList.get(i).getPVList().size();x++)
+            /*
+            for(int x = 0; i < VGList.get(i).getPVList().size() - 1;x++)
             {
                 PV temp = VGList.get(i).getPVList().get(x);
+                System.out.print("[" + temp.getName() + "] ");
+            }
+
+             */
+            for( PV temp : VGList.get(i).getPVList())
+            {
                 System.out.print("[" + temp.getName() + "] ");
             }
             System.out.print("[" + VGList.get(i).getID() + "]");
@@ -333,19 +348,51 @@ public class Logic {
         int index = userChoice.indexOf(" ") + 1;
         int endIndexOfNameLV = userChoice.substring(index).indexOf(" ") + index;
         int endIndexOfSpace = userChoice.substring(endIndexOfNameLV + 1).indexOf(" ") + endIndexOfNameLV;
-        System.out.println(index);
-        System.out.println(endIndexOfNameLV);
-        System.out.println(endIndexOfSpace);
-
-        String nameLV = userChoice.substring(index + 1,(endIndexOfNameLV));
-        System.out.println(nameLV);
+        String nameLV = userChoice.substring(index,(endIndexOfNameLV));
         int space = Integer.parseInt(userChoice.substring(endIndexOfNameLV + 1,endIndexOfSpace));
-        System.out.println(space);
-        //String nameVG = userChoice.substring(endIndexOfNameVG + 1);
+        String nameVG = userChoice.substring(endIndexOfSpace + 2);
 
+        LV LV = null;
+        if(VGList.size() != 0)
+        {
+            // if LVList.size() == 0 then i dont need to check for duplicate LVs
+            boolean foundLV = false;
+            if(LVList.size() != 0) {
+                for (int i = 0; i < LVList.size(); i++) {
+                    if (LVList.get(i).getName().equals(nameLV))//Lv is already in LVList
+                    {
+                        System.out.println("ERROR: The LV " + nameLV + " already exists");
+                        foundLV = true;
+                        break;
+                    }
+                }
+            }
+            if(!foundLV)
+            {
 
-        System.out.println(nameLV);
-        //System.out.println(nameVG);
+                for(int i = 0; i < VGList.size();i++)
+                {
+                    VG temp = VGList.get(i);
+                    if(temp.getName().equals(nameVG))
+                    {
+                        if(temp.getAvailableSpace() - space >= 0) {
+                            LV = new LV(nameLV, space, temp);
+                            LVList.add(LV);
+                            //needs to add to VG LVList so that  (add LV)
+                            System.out.println("Successfully created LV " + nameLV + " to VG "+ nameVG);
+                        }
+                        else
+                        {
+                            System.out.println("ERROR: Not enough available space remaining! " + temp.getAvailableSpace() + " left in " + nameVG);
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            System.out.println("ERROR: There are no VGs to assign LV " + nameLV + " to");
+        }
     }
 
 }
