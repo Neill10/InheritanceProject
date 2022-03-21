@@ -29,7 +29,7 @@ public class PV extends ID{
         return associatedVG;
     }
 
-    public double getSpace()
+    public int getSpace()
     {
         return associatedPD.getSpace();
     }
