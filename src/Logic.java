@@ -351,39 +351,44 @@ public class Logic {
         String nameLV = userChoice.substring(index,(endIndexOfNameLV));
         int space = Integer.parseInt(userChoice.substring(endIndexOfNameLV + 1,endIndexOfSpace));
         String nameVG = userChoice.substring(endIndexOfSpace + 2);
-
+        System.out.println(space);
+        /*
         LV LV = null;
+        VG VG = null;
         if(VGList.size() != 0)
         {
-            // if LVList.size() == 0 then i dont need to check for duplicate LVs
+            //searches all the all VGs and through their corresponding LVs
             boolean foundLV = false;
             if(LVList.size() != 0) {
-                for (int i = 0; i < LVList.size(); i++) {
-                    if (LVList.get(i).getName().equals(nameLV))//Lv is already in LVList
-                    {
-                        System.out.println("ERROR: The LV " + nameLV + " already exists");
-                        foundLV = true;
-                        break;
+                for (int i = 0; i < VGList.size(); i++) {
+                    for(int x = 0; x < VGList.get(i).getLVList().size();x++) {
+                        LV temp = VGList.get(i).getLVList().get(x);
+                        if (temp.getName().equals(nameLV))//LV is already in LVList
+                        {
+                            System.out.println("ERROR: The LV " + nameLV + " already exists in VG " + VGList.get((i)).getName());
+                            foundLV = true;
+                            break;
+                        }
                     }
                 }
             }
-            if(!foundLV)
+            if(!foundLV)//lV isn't already initialized so we can now try to find its intended Vg using nameVG
             {
-
                 for(int i = 0; i < VGList.size();i++)
                 {
-                    VG temp = VGList.get(i);
-                    if(temp.getName().equals(nameVG))
+                    VG = VGList.get(i);
+                    if(VG.getName().equals(nameVG))
                     {
-                        if(temp.getAvailableSpace() - space >= 0) {
-                            LV = new LV(nameLV, space, temp);
+                        if(VG.getAvailableSpace() - space >= 0) {
+                            LV = new LV(nameLV, space);
+                            VG.addLV(LV);//this will add LV to its LVlist and also change total space and available space
                             LVList.add(LV);
                             //needs to add to VG LVList so that  (add LV)
                             System.out.println("Successfully created LV " + nameLV + " to VG "+ nameVG);
                         }
                         else
                         {
-                            System.out.println("ERROR: Not enough available space remaining! " + temp.getAvailableSpace() + " left in " + nameVG);
+                            System.out.println("ERROR: Not enough available space remaining! " + VG.getAvailableSpace() + " left in " + nameVG);
                         }
                     }
                 }
@@ -393,6 +398,8 @@ public class Logic {
         {
             System.out.println("ERROR: There are no VGs to assign LV " + nameLV + " to");
         }
+
+         */
     }
 
 }
