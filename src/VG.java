@@ -19,7 +19,8 @@ public class VG extends ID{
     {
         LVList.add(LV);
         availableSpace = availableSpace - LV.getSize();
-        System.out.println("bruh");
+        System.out.println(availableSpace);
+        System.out.println(LV.getSize());
     }
     public void addPV(PV PV)
     {

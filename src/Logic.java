@@ -292,7 +292,7 @@ public class Logic {
                 }
                 else
                 {
-                    System.out.println("There are no PVs named" + namePV);
+                    System.out.println("ERROR: There are no PVs named" + namePV);
                 }
             }
             else
@@ -300,17 +300,16 @@ public class Logic {
                 System.out.println("ERROR: There are no VGs named" + nameVG);
             }
         }
-        if(VGListSize == 0 && PVListSize == 0)
-        {
-            System.out.println("ERROR: There is are no VGs created to extend from and PVs created to add to");
-        }
-        else if(VGListSize == 0)
-        {
-            System.out.println("ERROR: There are no VGs created to extend from");
-        }
-        else
-        {
-            System.out.println("ERROR: There are no PVs created to add to");
+        else {
+            if (VGListSize == 0 && PVListSize == 0) {
+                System.out.println("ERROR: There is are no VGs created to extend from and PVs created to add to");
+            } else if (VGListSize == 0) {
+                System.out.println("ERROR: There are no VGs created to extend from");//?
+            } else if(VGListSize != 0)//needs to check to see if PV is found
+            {
+                need fix
+                System.out.println("ERROR: There are no PVs created to add to");
+            }
         }
     }
 
@@ -352,7 +351,7 @@ public class Logic {
         int space = Integer.parseInt(userChoice.substring(endIndexOfNameLV + 1,endIndexOfSpace));
         String nameVG = userChoice.substring(endIndexOfSpace + 2);
         System.out.println(space);
-        /*
+
         LV LV = null;
         VG VG = null;
         if(VGList.size() != 0)
@@ -399,7 +398,7 @@ public class Logic {
             System.out.println("ERROR: There are no VGs to assign LV " + nameLV + " to");
         }
 
-         */
+
     }
 
 }

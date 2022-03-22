@@ -6,7 +6,7 @@ public class LV extends ID {
     public LV(String name,int size)
     {
         super(name);
-
+        this.size = size;
         //associatedVG remove space*
     }
 
