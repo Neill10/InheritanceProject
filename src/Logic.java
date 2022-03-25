@@ -405,7 +405,7 @@ public class Logic {
 
     public void saveData()
     {
-        Saver.writeToFile("testss.txt");
+        Saver.writeToFile("testss.txt",PDList,PVList,VGList,LVList);
     }
 
 }

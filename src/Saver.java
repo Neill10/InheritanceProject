@@ -39,11 +39,16 @@ public class Saver {
         }
     }
 
-    public static void writeToFile(String file)
+    public static void writeToFile(String file,ArrayList<PD> PDList, ArrayList<PV> PVList, ArrayList<VG> VGList, ArrayList<LV> LVList)
     {
         try {
+            //needs to replace everythin
             FileWriter myWriter = new FileWriter("testss.txt");
-            myWriter.write("Files in Java might be tricky, but it is fun enough!");
+            for(PD i : PDList)
+            {
+                myWriter.write("Files in Java might be \n bruh");
+            }
+
             myWriter.close();
             System.out.println("Data Successfully Saved");
         } catch (IOException e) {
