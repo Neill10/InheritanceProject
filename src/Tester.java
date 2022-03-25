@@ -7,12 +7,13 @@ public class Tester {
         System.out.println("Welcome to the LVM system! Enter your commands:\n");
         System.out.print("cmd#: ");
         String userChoice = s.nextLine();
-        while(!userChoice.equals("Exits"))
+        while(!userChoice.equals("Exit"))
         {
             logic.choices(userChoice);
             System.out.print("cmd#: ");
             userChoice = s.nextLine();
         }
+        System.out.println("Good Bye");
 
 
 

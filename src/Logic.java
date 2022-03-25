@@ -8,11 +8,20 @@ public class Logic {
     //private String userChoice;
 
 
-    Scanner scan = new Scanner(System.in);
-
-    public ArrayList<PD> getPDList() {//test
-
+    public ArrayList<PD> getPDList() {
         return PDList;
+    }
+
+    public ArrayList<PV> getPVList() {
+        return PVList;
+    }
+
+    public ArrayList<LV> getLVList() {
+        return LVList;
+    }
+
+    public ArrayList<VG> getVGList() {
+        return VGList;
     }
 
     public void choices(String userChoice)
@@ -49,12 +58,6 @@ public class Logic {
         else if(userChoice.contains("lvcreate"))
         {
             createLV(userChoice);
-        }
-        else if(userChoice.contains("Exit"))
-        {
-            System.out.println("cmd#");
-            userChoice = scan.nextLine();
-            choices(userChoice);
         }
         else
         {
@@ -305,9 +308,8 @@ public class Logic {
                 System.out.println("ERROR: There is are no VGs created to extend from and PVs created to add to");
             } else if (VGListSize == 0) {
                 System.out.println("ERROR: There are no VGs created to extend from");//?
-            } else if(VGListSize != 0)//needs to check to see if PV is found
+            } else//needs to check to see if PV is found
             {
-                need fix
                 System.out.println("ERROR: There are no PVs created to add to");
             }
         }
@@ -399,6 +401,11 @@ public class Logic {
         }
 
 
+    }
+
+    public void saveData()
+    {
+        Saver.writeToFile("testss.txt");
     }
 
 }
