@@ -47,13 +47,65 @@ public class Saver {
     public static void readFromFile(String file, ArrayList<PD> PDList, ArrayList<PV> PVList, ArrayList<VG> VGList, ArrayList<LV> LVList) throws IOException {
         File myObj = new File(file);
         fr = new FileReader(file);
-        if (myObj.exists()) {
-            int i;
+        if (myObj.exists())
+        {
             // Holds true till there is nothing to read
             String str = "";
-            while ((i = fr.read()) != -1)
+            // Try block to check for exceptions
+            try (BufferedReader br = new BufferedReader(fr))
             {
+                //str = a line until readLine() == null
+                while ((str = br.readLine()) != null)
+                {
+                    // Printing the file data
+                    String[] parse = str.split("\\|");
+                    /*
+                    for(String a : parse)
+                    {
+                        System.out.print(a);
+                    }
+                     */
+                    if(parse[0].equals("PD"))
+                    {
+                        PD temp = new PD(parse[1],Integer.parseInt(parse[2]));
+                        PDList.add(temp);
+                        if(parse[3] != null)
+                        {
+                            temp.setAssociatedPV();
+                        }
+
+                    }
+                    if(parse[0].equals("PV"))//needs some work
+                    {
+                        for(int x = 0; x < PDList.size();x++)
+                        {
+                            if(parse[3].equals(PDList.get(x).getName()))
+                            {
+                                PV temp = new PV(parse[1],PDList.get(x));
+                                PVList.add(temp);
+                            }
+                        }
+                    }
+                }
+            }
+            // Catch block to handle the exceptions
+            catch (IOException e)
+            {
+                // Display pop up message if exception occurs
+                System.out.println("Error while reading a file.");
+            }
+        }
+    }
+            /*
+            while ((i = fr.read()) != -1)//returns only one character
+            {
+                System.out.print((char)i);
+
                 String[] parse = ((char)i + "").split("\\|");
+                for(String a : parse)
+                {
+                    System.out.print(a);
+                }
                 if(parse[0].equals("PD"))
                 {
                     PD temp = new PD(parse[1],Integer.parseInt(parse[2]));
@@ -70,11 +122,13 @@ public class Saver {
                         }
                     }
                 }
+
             }
         } else {
             System.out.println("The file does not exist.");
         }
-    }
+
+             */
 
     public static void writeToFile(String file,ArrayList<PD> PDList, ArrayList<PV> PVList, ArrayList<VG> VGList, ArrayList<LV> LVList)
     {
@@ -129,10 +183,5 @@ public class Saver {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-    }
-
-    public static void savePDList(PD PDList)
-    {
-
     }
 }
