@@ -7,6 +7,7 @@ public class Saver {
     private static FileWriter myWriter;
     private static  FileReader fr;
 
+    /*
     public static void main(String[] args) {
         //creating the file
         try {
@@ -43,6 +44,7 @@ public class Saver {
             System.out.println("The file does not exist.");
         }
     }
+     */
 
     public static void readFromFile(String file, ArrayList<PD> PDList, ArrayList<PV> PVList, ArrayList<VG> VGList, ArrayList<LV> LVList) throws IOException {
         File myObj = new File(file);
@@ -59,30 +61,75 @@ public class Saver {
                 {
                     // Printing the file data
                     String[] parse = str.split("\\|");
-                    /*
-                    for(String a : parse)
-                    {
-                        System.out.print(a);
-                    }
-                     */
                     if(parse[0].equals("PD"))
                     {
                         PD temp = new PD(parse[1],Integer.parseInt(parse[2]));
                         PDList.add(temp);
-                        if(parse[3] != null)
-                        {
-                            temp.setAssociatedPV();
-                        }
-
                     }
                     if(parse[0].equals("PV"))//needs some work
                     {
                         for(int x = 0; x < PDList.size();x++)
                         {
-                            if(parse[3].equals(PDList.get(x).getName()))
+                            if(parse[2].equals(PDList.get(x).getName()))
                             {
                                 PV temp = new PV(parse[1],PDList.get(x));
+                                temp.setAssignedID(UUID.fromString(parse[3]));
                                 PVList.add(temp);
+                                PDList.get(x).setAssociatedPV(temp);
+                            }
+                            //System.out.println("didn't find it");
+                        }
+                    }
+                    if(parse[0].equals("VG"))
+                    {
+                        String[] VGListOfPV = new String[1];
+                        if(parse[2].contains(","))
+                        {
+                            VGListOfPV = parse[2].split(",");//multiple PV
+                        }
+                        else
+                        {
+                            VGListOfPV[0] = parse[2];//only one pv
+                        }
+                        int UUIDIndex = 3;
+                        if(parse.length == 5)
+                        {
+                            UUIDIndex = 4;
+                        }
+                        VG temp = null;
+
+                        for(int x = 0; x < VGListOfPV.length; x++)
+                        {
+                            for(int i = 0; i < PVList.size();i++)
+                            {
+                                if(VGListOfPV[x].equals(PVList.get(i).getName()))
+                                {
+                                    if(VGList.size() == 0)
+                                    {
+                                        temp = new VG(parse[1],PVList.get(i));//first PV created
+                                        PVList.get(i).setAssociatedVG(temp);
+                                        temp.setAssignedID(UUID.fromString(parse[UUIDIndex]));
+                                        VGList.add(temp);
+                                        break;
+                                    }
+                                    else {
+                                        temp.addPV(PVList.get(i));
+                                        PVList.get(i).setAssociatedVG(temp);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if(parse[0].equals("LV"))
+                    {
+                        LV temp = new LV(parse[1],Integer.parseInt(parse[2]));
+                        temp.setAssignedID(UUID.fromString(parse[4]));
+                        for(VG vg : VGList)
+                        {
+                            if(vg.getName().equals(parse[3]))
+                            {
+                                vg.addLV(temp);
                             }
                         }
                     }
@@ -96,39 +143,6 @@ public class Saver {
             }
         }
     }
-            /*
-            while ((i = fr.read()) != -1)//returns only one character
-            {
-                System.out.print((char)i);
-
-                String[] parse = ((char)i + "").split("\\|");
-                for(String a : parse)
-                {
-                    System.out.print(a);
-                }
-                if(parse[0].equals("PD"))
-                {
-                    PD temp = new PD(parse[1],Integer.parseInt(parse[2]));
-                    PDList.add(temp);
-                }
-                if(parse[0].equals("PV"))//needs some work
-                {
-                    for(int x = 0; x < PDList.size();x++)
-                    {
-                        if(parse[3].equals(PDList.get(x).getName()))
-                        {
-                            PV temp = new PV(parse[1],PDList.get(x));
-                            PVList.add(temp);
-                        }
-                    }
-                }
-
-            }
-        } else {
-            System.out.println("The file does not exist.");
-        }
-
-             */
 
     public static void writeToFile(String file,ArrayList<PD> PDList, ArrayList<PV> PVList, ArrayList<VG> VGList, ArrayList<LV> LVList)
     {
@@ -140,8 +154,7 @@ public class Saver {
                 myWriter.write("PD");
                 myWriter.write("|");
                 myWriter.write(i.getName());
-                myWriter.write("|" + i.getSpace() + "|");
-                myWriter.write(i.getAssociatedPV() + "\n");//can be null
+                myWriter.write("|" + i.getSpace() + "\n");
             }
             for(PV i : PVList)
             {
@@ -149,22 +162,34 @@ public class Saver {
                 myWriter.write("|");
                 myWriter.write(i.getName());
                 myWriter.write("|" + i.getAssociatedPD().getName() + "|");
-                myWriter.write(i.getAssociatedVG() +"|");//can be null
                 myWriter.write(i.getID() + "\n");
             }
             for(VG i : VGList)
             {
                 myWriter.write("VG");
                 myWriter.write("|");
-                myWriter.write(i.getName());
+                myWriter.write(i.getName() + "|");
                 for(int x = 0; x < i.getPVList().size(); x++)
                 {
-                    myWriter.write(i.getPVList().get(x).getName() + ",");//writes the name of the PV
+                    if(x == i.getPVList().size()-1)
+                    {
+                        myWriter.write(i.getPVList().get(x).getName());
+                    }
+                    else
+                    {
+                        myWriter.write(i.getPVList().get(x).getName() + ",");//writes the name of the PV
+                    }
                 }
-                myWriter.write("|");
                 for(int x = 0; x < i.getLVList().size();x++)
                 {
-                    myWriter.write(i.getLVList().get(x).getName() + ",");//writes the name of the PV
+                    if(x == i.getLVList().size()-1)
+                    {
+                        myWriter.write("|"+i.getLVList().get(x).getName());
+                    }
+                    else
+                    {
+                        myWriter.write("|"+i.getLVList().get(x).getName() + ",");//writes the name of the PV
+                    }
                 }
                 myWriter.write("|");
                 myWriter.write(i.getID() + "\n");
@@ -175,7 +200,18 @@ public class Saver {
                 myWriter.write("|");
                 myWriter.write(i.getName());
                 myWriter.write("|" + i.getSize() + "|");
-                myWriter.write(i.getID() + "\n");
+                for(VG vg : VGList)
+                {
+                    for(int x = 0; x < vg.getLVList().size();x++)
+                    {
+                        if(vg.getLVList().get(x).getName().equals(i.getName()))
+                        {
+                            myWriter.write(vg.getName());
+                            break;
+                        }
+                    }
+                }
+                myWriter.write("|"+i.getID() + "\n");
             }
             myWriter.close();
             System.out.println("Data Successfully Saved");
@@ -184,4 +220,20 @@ public class Saver {
             e.printStackTrace();
         }
     }
+
+    public static void clearSave(String file)
+    {
+        try
+        {
+            myWriter = new FileWriter(file);
+            System.out.println("SAVE Cleared");
+        }
+        catch (IOException e)
+        {
+        System.out.println("Unable to delete SAVE.");
+        e.printStackTrace();
+        }
+
+    }
+
 }

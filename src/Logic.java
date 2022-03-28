@@ -61,6 +61,10 @@ public class Logic {
         {
             createLV(userChoice);
         }
+        else if (userChoice.contains("clearSave"))
+        {
+            Saver.clearSave("SAVE.txt");
+        }
         else
         {
             System.out.println("ERROR: Invalid command!");
@@ -216,13 +220,6 @@ public class Logic {
                         System.out.println("ERROR: " + namePV + " is part of VG " + PVList.get(i).getAssociatedVG().getName() + " already!");
                         foundPV = true;
                     }
-                    /*
-                    else {
-                        if (i == PVList.size() - 1 && !PVList.get(i).getName().equals(namePV)) {
-                            System.out.println("ERROR: There are no PVs named " + namePV);//problemo with running each after break.
-                        }
-                    }
-                     */
                 }
                 if(!foundPV)
                 {
@@ -289,6 +286,7 @@ public class Logic {
                     {
                         System.out.println("Successfully extended PV " + namePV + " to VG " + nameVG);
                         VG.addPV(PV);
+                        PV.setAssociatedVG(VG);
                     }
                     else
                     {
@@ -321,25 +319,23 @@ public class Logic {
     {
         if(VGList.size() == 0)
         {
-            System.out.println("There are no created PVs!");
+            System.out.println("There are no created VGs!");
         }
         for(int i = 0; i < VGList.size();i++)
         {
             System.out.print(VGList.get(i).getName() + ": ");
             System.out.print("total:["+ VGList.get(i).getTotalspace() + "G] ");
-            System.out.print("available:["+ VGList.get(i).getAvailableSpace() + "G] ");
-
-            /*
-            for(int x = 0; i < VGList.get(i).getPVList().size() - 1;x++)
+            System.out.print("available:["+ VGList.get(i).getAvailableSpace() + "G] [");
+            for(int x = 0; x < VGList.get(i).getPVList().size();x++)
             {
-                PV temp = VGList.get(i).getPVList().get(x);
-                System.out.print("[" + temp.getName() + "] ");
-            }
-
-             */
-            for( PV temp : VGList.get(i).getPVList())
-            {
-                System.out.print("[" + temp.getName() + "] ");
+                if(x == VGList.get(i).getPVList().size() - 1)
+                {
+                    System.out.print(VGList.get(i).getPVList().get(x).getName() + "] ");
+                }
+                else
+                {
+                    System.out.print(VGList.get(i).getPVList().get(x).getName() + ",");
+                }
             }
             System.out.print("[" + VGList.get(i).getID() + "]");
             System.out.println();
@@ -354,7 +350,6 @@ public class Logic {
         String nameLV = userChoice.substring(index,(endIndexOfNameLV));
         int space = Integer.parseInt(userChoice.substring(endIndexOfNameLV + 1,endIndexOfSpace));
         String nameVG = userChoice.substring(endIndexOfSpace + 2);
-        System.out.println(space);
 
         LV LV = null;
         VG VG = null;
@@ -415,6 +410,7 @@ public class Logic {
             File myObj = new File("SAVE.txt");
             if (myObj.createNewFile()) {
                 System.out.println("SAVE created: " + myObj.getName());
+                Saver.readFromFile("SAVE.txt", PDList, PVList, VGList, LVList);
             } else {
                 System.out.println("SAVE Exists.");
                 Saver.readFromFile("SAVE.txt", PDList, PVList, VGList, LVList);
@@ -423,7 +419,5 @@ public class Logic {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        Saver.readFromFile("SAVE.txt", PDList, PVList, VGList, LVList);
-
     }
 }
