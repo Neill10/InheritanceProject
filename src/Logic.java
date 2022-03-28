@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class Logic {
@@ -405,7 +407,23 @@ public class Logic {
 
     public void saveData()
     {
-        Saver.writeToFile("testss.txt",PDList,PVList,VGList,LVList);
+        Saver.writeToFile("SAVE.txt", PDList, PVList, VGList, LVList);
     }
 
+    public void getData() throws IOException {
+        try {
+            File myObj = new File("SAVE.txt");
+            if (myObj.createNewFile()) {
+                System.out.println("SAVE created: " + myObj.getName());
+            } else {
+                System.out.println("SAVE Exists.");
+                Saver.readFromFile("SAVE.txt", PDList, PVList, VGList, LVList);
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        Saver.readFromFile("SAVE.txt", PDList, PVList, VGList, LVList);
+
+    }
 }

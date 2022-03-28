@@ -1,11 +1,11 @@
+import java.io.IOException;
 import java.util.*;
 
 public class Tester {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Logic logic = new Logic();
+        logic.getData();
         Scanner s = new Scanner(System.in);
-        logic.saveData();
-        /*
         System.out.println("Welcome to the LVM system! Enter your commands:\n");
         System.out.print("cmd#: ");
         String userChoice = s.nextLine();
@@ -15,10 +15,9 @@ public class Tester {
             System.out.print("cmd#: ");
             userChoice = s.nextLine();
         }
+
         System.out.println("Good Bye");
-
-         */
-
+        logic.saveData();
 
 
 

@@ -17,4 +17,8 @@ public class ID {
     public String getName() {
         return name;
     }
+
+    public void setAssignedID(UUID assignedID) {
+        this.assignedID = assignedID;
+    }
 }
