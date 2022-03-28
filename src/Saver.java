@@ -69,11 +69,6 @@ public class Saver {
                     {
                         PD temp = new PD(parse[1],Integer.parseInt(parse[2]));
                         PDList.add(temp);
-                        if(parse[3] != null)
-                        {
-                            temp.setAssociatedPV();
-                        }
-
                     }
                     if(parse[0].equals("PV"))//needs some work
                     {
@@ -82,7 +77,9 @@ public class Saver {
                             if(parse[3].equals(PDList.get(x).getName()))
                             {
                                 PV temp = new PV(parse[1],PDList.get(x));
+                                temp.setAssignedID(UUID.fromString(parse[5]));
                                 PVList.add(temp);
+                                PDList.get(x).setAssociatedPV(temp);
                             }
                         }
                     }
@@ -96,39 +93,6 @@ public class Saver {
             }
         }
     }
-            /*
-            while ((i = fr.read()) != -1)//returns only one character
-            {
-                System.out.print((char)i);
-
-                String[] parse = ((char)i + "").split("\\|");
-                for(String a : parse)
-                {
-                    System.out.print(a);
-                }
-                if(parse[0].equals("PD"))
-                {
-                    PD temp = new PD(parse[1],Integer.parseInt(parse[2]));
-                    PDList.add(temp);
-                }
-                if(parse[0].equals("PV"))//needs some work
-                {
-                    for(int x = 0; x < PDList.size();x++)
-                    {
-                        if(parse[3].equals(PDList.get(x).getName()))
-                        {
-                            PV temp = new PV(parse[1],PDList.get(x));
-                            PVList.add(temp);
-                        }
-                    }
-                }
-
-            }
-        } else {
-            System.out.println("The file does not exist.");
-        }
-
-             */
 
     public static void writeToFile(String file,ArrayList<PD> PDList, ArrayList<PV> PVList, ArrayList<VG> VGList, ArrayList<LV> LVList)
     {
