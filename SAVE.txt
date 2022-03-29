@@ -1,6 +1,0 @@
-PD|bruh|100
-PD|oof|100
-PV|pv1|bruh|fc79b0a1-b9b7-414b-abef-20fce924666a
-PV|pv2|oof|a101a49f-41d1-4553-ac40-de2c527fa7fa
-VG|vg1|pv1,pv2|lv1|9f8089c4-6c1b-47f6-9a2b-76b8e3991fd4
-LV|lv1|100|vg1|f87ec1d5-ec5d-4f47-a06a-af387069f522
