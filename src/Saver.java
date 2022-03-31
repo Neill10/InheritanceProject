@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Saver {
     private static FileWriter myWriter;
-    private static  FileReader fr;
+    private static FileReader fr;
 
     /*
     public static void main(String[] args) {
@@ -47,8 +47,8 @@ public class Saver {
      */
 
     public static void readFromFile(String file, ArrayList<PD> PDList, ArrayList<PV> PVList, ArrayList<VG> VGList, ArrayList<LV> LVList) throws IOException {
-        File myObj = new File(file);
-        fr = new FileReader(file);
+        File myObj = new File(file);//kinda redundant
+        fr = new FileReader(file);//redundant code
         if (myObj.exists())
         {
             // Holds true till there is nothing to read

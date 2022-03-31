@@ -5,7 +5,7 @@ public class VG extends ID{
     private int totalSpace;
     private int availableSpace;
     private ArrayList<PV> PVList = new ArrayList<PV>();
-    private ArrayList<LV> LVList = new ArrayList<LV>();
+    private ArrayList<LV> LVList = new ArrayList<LV>();//could delete this and just check Logic:LVList instead.
 
     public VG(String name, PV PV)
     {

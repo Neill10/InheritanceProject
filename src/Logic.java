@@ -129,7 +129,6 @@ public class Logic {
 
     public void createPV(String userChoice)
     {
-        //pvcreate bruh pd1
         int index = userChoice.indexOf(" ") + 1;//first space (8)
         int endIndexOfNamePV = userChoice.substring(index).indexOf(" ") + index;
         String namePV = userChoice.substring(index,(endIndexOfNamePV));
