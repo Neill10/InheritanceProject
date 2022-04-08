@@ -132,6 +132,7 @@ public class Saver {
                                 vg.addLV(temp);
                             }
                         }
+                        LVList.add(temp);
                     }
                 }
             }

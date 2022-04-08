@@ -65,6 +65,10 @@ public class Logic {
         {
             Saver.clearSave("SAVE.txt");
         }
+        else if (userChoice.contains("lvlist"))
+        {
+            LVList();
+        }
         else
         {
             System.out.println("ERROR: Invalid command!");
@@ -398,7 +402,28 @@ public class Logic {
 
 
     }
-
+//added LVlist helper method
+    public void LVList()
+    {
+        for (LV i : LVList)
+        {
+            String name = i.getName();
+            int size = i.getSize();
+            UUID ID = i.getID();
+            String nameVG = "";
+            for(VG x : VGList)
+            {
+                for(LV a : x.getLVList())
+                {
+                    if(a.getName().equals(name))
+                    {
+                        nameVG = x.getName();
+                    }
+                }
+            }
+            System.out.println(name + ": [" + size +"] ["+ nameVG +"] ["+ ID + "]");
+        }
+    }
     public void saveData()
     {
         Saver.writeToFile("SAVE.txt", PDList, PVList, VGList, LVList);
